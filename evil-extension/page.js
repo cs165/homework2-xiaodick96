@@ -12,6 +12,26 @@ const MATCH_LIST = {
 
 function transformTextNodes(node) {
   // TODO(you): Implement this function! See HW spec for details.
+    if(node.nodeType === Node.TEXT_NODE){
+    let t = node.textContent;
+    let s = t.split(' ');
+    let ls = [];
+    for(let i of s){
+       ls.push(i.trim());
+    }
+    for(let i = 0; i<ls.length; i++){
+      if(MATCH_LIST[ls[i]]){
+        ls[i] = MATCH_LIST[ls[i]];
+     }
+    }
+    node.textContent = ls.join(' ');   
+  }
+  for(const child of node.childNodes){
+    //if(child.nodeName === 'SCRIPT')
+    if(child.nodeName==='style' ||child.nodeName==='SCRIPT')
+      continue;
+    transformTextNodes(child);
+  }
 }
 
 transformTextNodes(document.body);
